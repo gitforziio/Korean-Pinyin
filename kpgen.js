@@ -148,10 +148,10 @@ function krnToPinYin(str) {
         ['ㅁ', 'm'],
         ['ㅂ', 'p'],
         ['ㅃ', 'bb'],
-        ['ㅅ', 'cs'],
+        ['ㅅ', 'c'],
         ['ㅆ', 'ss'],
         ['ㅇ', '-'],
-        ['ㅈ', 'cc'],
+        ['ㅈ', 'cq'],
         ['ㅉ', 'zh'],
         ['ㅊ', 'ch'],
         ['ㅋ', 'kh'],
@@ -163,12 +163,12 @@ function krnToPinYin(str) {
         ['ㅏ', 'a'],
         ['ㅐ', 'ae'],
         ['ㅑ', 'ia'],
-        ['ㅒ', 'ea'],
+        ['ㅒ', 'iae'],
         //
         ['ㅓ', 'o'],
-        ['ㅔ', 'oe'],
+        ['ㅔ', 'ee'],
         ['ㅕ', 'io'],
-        ['ㅖ', 'eo'],
+        ['ㅖ', 'iee'],
         //
         ['ㅗ', 'u'],
         ['ㅘ', 'ua'],
@@ -178,7 +178,7 @@ function krnToPinYin(str) {
         //
         ['ㅜ', 'uu'],
         ['ㅝ', 'uuo'],
-        ['ㅞ', 'uuoe'],
+        ['ㅞ', 'uuee'],
         ['ㅟ', 'uui'],
         ['ㅠ', 'iuu'],
         //
@@ -190,26 +190,26 @@ function krnToPinYin(str) {
         ['㄰', ''],
         ['ㄱ', 'g-'],
         ['ㄲ', 'gg-'],
-        ['ㄳ', 'gcs-'],
+        ['ㄳ', 'gc-'],
         ['ㄴ', 'n-'],
-        ['ㄵ', 'ncc-'],
+        ['ㄵ', 'ncq-'],
         ['ㄶ', 'nh-'],
         ['ㄷ', 'd-'],
         ['ㄹ', 'l-'],
         ['ㄺ', 'lg-'],
         ['ㄻ', 'lm-'],
         ['ㄼ', 'lp-'],
-        ['ㄽ', 'lcs-'],
+        ['ㄽ', 'lc-'],
         ['ㄾ', 'lth-'],
         ['ㄿ', 'lph-'],
         ['ㅀ', 'lh-'],
         ['ㅁ', 'm-'],
         ['ㅂ', 'b-'],
-        ['ㅄ', 'bcs-'],
-        ['ㅅ', 'cs-'],
+        ['ㅄ', 'bc-'],
+        ['ㅅ', 'c-'],
         ['ㅆ', 'ss-'],
         ['ㅇ', 'ng-'],
-        ['ㅈ', 'cc-'],
+        ['ㅈ', 'cq-'],
         ['ㅊ', 'zh-'],
         ['ㅋ', 'kh-'],
         ['ㅌ', 'th-'],
@@ -273,18 +273,18 @@ function krnToPinYin(str) {
     //
     // 发音变化
     //
-    result = result.replace(/cs-i/g, `-cxi`);
+    result = result.replace(/c-i/g, `-xi`);
     result = result.replace(/ss-i/g, `-xx-i`);
     result = result.replace(/Ss-i/g, `Xx-i`);
     //
-    result = result.replace(/cs-en/g, `-csen`);
+    result = result.replace(/c-en/g, `-cen`);
     result = result.replace(/m-en/g, `-men`);
     result = result.replace(/n-en/g, `-nen`);
     //
     result = result.replace(/ng- li/g, `ng-ni`);
     result = result.replace(/n- h/g, `-nh`);
     //
-    result = result.replace(/csi/g, `cxi`);
+    result = result.replace(/ci/g, `xi`);
     result = result.replace(/ssi/g, `xxi`);
     result = result.replace(/Ssi/g, `Xxi`);
     //
@@ -294,7 +294,7 @@ function krnToPinYin(str) {
     result = result.replace(/ dh/g, ` th`);
     result = result.replace(/ k/g, ` g`);
     result = result.replace(/ gh/g, ` kh`);
-    result = result.replace(/ cc/g, ` cz`);
+    result = result.replace(/ cq/g, ` cz`);
     //
     result = result.replace(/Czre 【𠒒𠈔】 K/g, `Czre 【𠒒𠈔】 G`);
     //
@@ -317,6 +317,15 @@ function krnToPinYin(str) {
     result = result.replace(/b$/g, `m$`);
     result = result.replace(/p$/g, `m$`);
     result = result.replace(/ym$/g, `yim$`);
+    //
+    result = result.replace(/ um /g, ` om `);
+    result = result.replace(/^um /g, `om `);
+    result = result.replace(/ um$/g, ` om`);
+    result = result.replace(/^um$/g, `om`);
+    result = result.replace(/ Um /g, ` Om `);
+    result = result.replace(/^Um /g, `Om `);
+    result = result.replace(/ Um$/g, ` Om`);
+    result = result.replace(/^Um$/g, `Om`);
     //
     // 结束
     //

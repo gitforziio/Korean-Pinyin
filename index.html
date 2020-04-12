@@ -65,7 +65,8 @@
 그 가방은 왕한 씨의 것입니다.
 
 저 사전도 왕한 씨의 것입니까?
-아닙니다. 저 사전은 왕한 씨의 것이 아닙니다. 황민 씨의 사전입니다.
+아닙니다. 저 사전은 왕한 씨의 것이 아닙니다.
+황민 씨의 사전입니다.
 
 이 컴퓨터는 누구의 것입니까?
 그것은 제 것입니다.
@@ -91,7 +92,14 @@
         <div class="row">
             <div class="col">
                 <div id="the-output-wrap-2">
-                    <textarea class="form-control" id="the-output-2" rows="10"></textarea>
+                    <textarea class="form-control" id="the-output-2" rows="6"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div id="the-output-wrap-3">
+                    <textarea class="form-control" id="the-output-3" rows="6"></textarea>
                 </div>
             </div>
         </div>
@@ -112,6 +120,7 @@
             var str = document.getElementById("the-input").value;
             var rst = krnToZhuYin(str);
             document.getElementById("the-output").innerHTML = rst;
+            document.getElementById("the-output-3").value = rst;
             var rst2 = krnToPinYin(str);
             document.getElementById("the-output-2").value = rst2;
         };
