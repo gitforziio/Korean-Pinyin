@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- 上一条代码IE=edge告诉IE使用最新的引擎渲染网页，chrome=1则可以激活Chrome Frame. -->
+    <!-- https://blog.csdn.net/oJingZhiYuan12/article/details/88015130 -->
+    <!-- 不过现在都什么年代了，IE我们就别考虑了吧，哈哈哈。 -->
+
+    <title>韩语拼音</title>
+
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="css/style.css" rel="stylesheet" type="text/css"> -->
+    <!-- <link href="cxn.css" rel="stylesheet" type="text/css"> -->
+    <style type="text/css">
+        body{background: #eee;}
+        .bodywrap{min-height: 100vh;}
+        .container.page{background: #fff;}
+        .span-nav-desc{font-size: 0.6em;}
+        .hidden{display: none;}
+        /*#footer{padding-bottom: 5rem;}*/
+
+        /*#box-editing{max-height: 80vh; overflow: auto;}*/
+
+        .card-wrap{background: #fafafa; border: 1px solid #eee; margin: 1rem 0;}
+        .btn_stc_wrap{margin: 0 0 1rem 0;}
+        .textarea-editing{margin: 1rem 0;}
+
+        /*.outputbox{font-size: 10px;}*/
+    </style>
+
+
+</head>
+
+<body>
+
+<div class="bodywrap" id="bodywrap">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">韩语拼音</a>
+    </nav>
+
+    <div class="container my-5 page hiddent" id="page-text"><div class="container py-5">
+        <div class="row">
+            <div class="col">
+                <div id="the-input-wrap">
+                    <textarea class="form-control" id="the-input" rows="10">
+이선희: 이것은 무엇입니까?
+양리: 그것은 가방입니다.
+이선희: 이 가방은 누구의 것입니까?
+양리: 그 가방은 왕한 씨의 것입니다.
+이선희: 저 사전도 왕한 씨의 것입니까?
+양리: 아닙니다. 저 사전은 왕한 씨의 것이 아닙니다. 황민 씨의 사전입니다.
+이선희: 이 컴퓨터는 누구의 것입니까?
+양리: 그것은 제 것입니다.
+                    </textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button type="button" name="do_translate" id="do_translate" class="btn btn-primary">转换！</button>
+            </div>
+        </div>
+    </div></div>
+
+    <div class="container my-5 page" id="page-output"><div class="container py-5">
+        <div class="row">
+            <div class="col">
+                <div id="the-output-wrap">
+                    <textarea class="form-control" id="the-output" rows="10"></textarea>
+                </div>
+            </div>
+        </div>
+    </div></div>
+
+</div>
+
+<footer class="pt-4 pb-5 bg-dark text-white" id="footer">
+    <div class="container text-center">
+        <p>Github: <a href="https://github.com/gitforziio/Korean-Pinyin" target="_blank">@gitforziio/Korean-Pinyin</a></p>
+    </div>
+</footer>
+
+    <script type="text/javascript" src="kpgen.js"></script>
+
+    <script type="text/javascript">
+        document.getElementById("do_translate").onclick = function(){
+            var str = document.getElementById("the-input").value;
+            var rst = krnToPinYin(str);
+            document.getElementById("the-output").value = rst;
+        };
+    </script>
+
+<!-- 
+
+    <style>
+      #tooltip {
+        background: #333;
+        color: white;
+        font-weight: bold;
+        padding: 4px 8px;
+        font-size: 13px;
+        border-radius: 4px;
+        display: none;
+      }
+
+      #tooltip[data-show] {
+        display: block;
+      }
+
+      #arrow,
+      #arrow::before {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        z-index: -1;
+      }
+
+      #arrow::before {
+        content: '';
+        transform: rotate(45deg);
+        background: #333;
+      }
+
+      #tooltip[data-popper-placement^='top'] > #arrow {
+        bottom: -4px;
+      }
+
+      #tooltip[data-popper-placement^='bottom'] > #arrow {
+        top: -4px;
+      }
+
+      #tooltip[data-popper-placement^='left'] > #arrow {
+        right: -4px;
+      }
+
+      #tooltip[data-popper-placement^='right'] > #arrow {
+        left: -4px;
+      }
+    </style>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script>
+      const button = document.querySelector('#button');
+      const tooltip = document.querySelector('#tooltip');
+
+      let popperInstance = null;
+
+      function create() {
+        popperInstance = Popper.createPopper(button, tooltip, {
+          modifiers: [
+            {
+              name: 'offset',
+              options: {
+                offset: [0, 8],
+              },
+            },
+          ],
+        });
+      }
+
+      function destroy() {
+        if (popperInstance) {
+          popperInstance.destroy();
+          popperInstance = null;
+        }
+      }
+
+      function show() {
+        tooltip.setAttribute('data-show', '');
+        create();
+      }
+
+      function hide() {
+        tooltip.removeAttribute('data-show');
+        destroy();
+      }
+
+      const showEvents = ['mouseenter', 'focus'];
+      const hideEvents = ['mouseleave', 'blur'];
+
+      showEvents.forEach(event => {
+        button.addEventListener(event, show);
+      });
+
+      hideEvents.forEach(event => {
+        button.addEventListener(event, hide);
+      });
+    </script>
+ -->
+
+</body>
+
+</html>
