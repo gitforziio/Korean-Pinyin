@@ -86,7 +86,56 @@ function krnStringSplit(str) {
     return result;
 }
 
-// krnStringSplit('모스크바');
+function krnToZhuYin(str) {
+    var lst = str.split('');
+    var result = [];
+    var krn_bag = [];
+    var oth_bag = [];
+    var last_thing = [];
+    lst.forEach(char => {
+        let thing = krnCharSplit(char);
+        if (thing.length == 3) {
+            if (oth_bag.length) {result.push({'deal': false, 'content':oth_bag.join('')});oth_bag = [];}
+            krn_bag.push(char);
+        } else if (thing.length == 1 && (thing[0] == ' ' || thing[0] == '\n' || thing[0] == '\r')) {
+            if (last_thing.length == 3) {
+                if (krn_bag.length) {result.push({'deal': true, 'content':krn_bag.join('')});krn_bag = [];}
+                if (oth_bag.length) {result.push({'deal': false, 'content':oth_bag.join('')});oth_bag = [];}
+            } else {
+                if (oth_bag.length) {result.push({'deal': false, 'content':oth_bag.join('')});oth_bag = [];}
+                if (krn_bag.length) {result.push({'deal': true, 'content':krn_bag.join('')});krn_bag = [];}
+            }
+            result.push({'deal': false, 'content':char});
+        } else {
+            if (krn_bag.length) {result.push({'deal': true, 'content':krn_bag.join('')});krn_bag = [];}
+            oth_bag.push(char);
+        }
+        last_thing = thing;
+    });
+    if (last_thing.length == 3) {
+        if (krn_bag.length) {result.push({'deal': true, 'content':krn_bag.join('')});krn_bag = [];}
+        if (oth_bag.length) {result.push({'deal': false, 'content':oth_bag.join('')});oth_bag = [];}
+    } else {
+        if (oth_bag.length) {result.push({'deal': false, 'content':oth_bag.join('')});oth_bag = [];}
+        if (krn_bag.length) {result.push({'deal': true, 'content':krn_bag.join('')});krn_bag = [];}
+    }
+    let zys = [];
+    result.forEach(obj=>{
+        if (obj.deal) {
+            let py = krnToPinYin(obj.content);
+            zys.push(`<ruby>${obj.content}<rp>（</rp><rt>${py}</rt><rp>）</rp></ruby>`);
+        } else {
+            if (obj.content=='\n') {
+                zys.push(`<br/>`);
+            } else if (obj.content==' ') {
+                zys.push(` `);
+            } else {
+                zys.push(`<span>${obj.content}</span>`);
+            }
+        }
+    });
+    return `<p>${zys.join(' ')}</p>`;
+}
 
 function krnToPinYin(str) {
     let qqii_array = [
@@ -115,20 +164,24 @@ function krnToPinYin(str) {
         ['ㅐ', 'ae'],
         ['ㅑ', 'ia'],
         ['ㅒ', 'ea'],
-        ['ㅓ', 'r'],
-        ['ㅔ', 're'],
-        ['ㅕ', 'ir'],
-        ['ㅖ', 'er'],
-        ['ㅗ', 'o'],
-        ['ㅘ', 'oa'],
-        ['ㅙ', 'oae'],
-        ['ㅚ', 'oi'],
-        ['ㅛ', 'io'],
-        ['ㅜ', 'u'],
-        ['ㅝ', 'ur'],
-        ['ㅞ', 'ure'],
-        ['ㅟ', 'ui'],
-        ['ㅠ', 'iu'],
+        //
+        ['ㅓ', 'o'],
+        ['ㅔ', 'oe'],
+        ['ㅕ', 'io'],
+        ['ㅖ', 'eo'],
+        //
+        ['ㅗ', 'u'],
+        ['ㅘ', 'ua'],
+        ['ㅙ', 'uae'],
+        ['ㅚ', 'ui'],
+        ['ㅛ', 'iu'],
+        //
+        ['ㅜ', 'uu'],
+        ['ㅝ', 'uuo'],
+        ['ㅞ', 'uuoe'],
+        ['ㅟ', 'uui'],
+        ['ㅠ', 'iuu'],
+        //
         ['ㅡ', 'e'],
         ['ㅢ', 'ei'],
         ['ㅣ', 'i'],
@@ -197,23 +250,25 @@ function krnToPinYin(str) {
     result = result.replace(/- 【𠒒𠈔】/g, ` 【𠒒𠈔】`);
     //
     result = result.replace(/^i/g, `y`);
-    result = result.replace(/^u/g, `w`);
+    result = result.replace(/^uu/g, `w`);
     result = result.replace(/\ni/g, `\ny`);
-    result = result.replace(/\nu/g, `\nw`);
+    result = result.replace(/\nuu/g, `\nw`);
     result = result.replace(/【𠒒𠈔】 i/g, `【𠒒𠈔】 y`);
-    result = result.replace(/【𠒒𠈔】 u/g, `【𠒒𠈔】 w`);
+    result = result.replace(/【𠒒𠈔】 uu/g, `【𠒒𠈔】 w`);
     //
     result = result.replace(/^.|【𠒒𠈔】 .|\n./g, str => str.toUpperCase());
     //
+    result = result.replace(/^Y$/g, `Yi`);
+    result = result.replace(/^W$/g, `Wuu`);
     result = result.replace(/^Y /g, `Yi `);
-    result = result.replace(/^W /g, `Wu `);
+    result = result.replace(/^W /g, `Wuu `);
     result = result.replace(/\nY /g, `\nYi `);
-    result = result.replace(/\nW /g, `\nWu `);
+    result = result.replace(/\nW /g, `\nWuu `);
     result = result.replace(/【𠒒𠈔】 Y /g, `【𠒒𠈔】 Yi `);
-    result = result.replace(/【𠒒𠈔】 W /g, `【𠒒𠈔】 Wu `);
+    result = result.replace(/【𠒒𠈔】 W /g, `【𠒒𠈔】 Wuu `);
     //
     result = result.replace(/- y/g, `-i`);
-    result = result.replace(/- w/g, `-u`);
+    result = result.replace(/- w/g, `-uu`);
     result = result.replace(/- -/g, `-`);
     //
     // 发音变化
@@ -248,15 +303,20 @@ function krnToPinYin(str) {
     result = result.replace(/n-i/g, `n y`);
     //
     result = result.replace(/ -i/g, ` y`);
-    result = result.replace(/ -u/g, ` w`);
+    result = result.replace(/ -uu/g, ` w`);
     result = result.replace(/ -/g, ` `);
     result = result.replace(/- /g, ` `);
+    result = result.replace(/ y /g, ` yi `);
+    result = result.replace(/ w /g, ` wuu `);
     //
     // 收音统一化
     //
     result = result.replace(/b /g, `m `);
     result = result.replace(/p /g, `m `);
     result = result.replace(/ym /g, `yim `);
+    result = result.replace(/b$/g, `m$`);
+    result = result.replace(/p$/g, `m$`);
+    result = result.replace(/ym$/g, `yim$`);
     //
     // 结束
     //
@@ -266,31 +326,5 @@ function krnToPinYin(str) {
     return result;
 }
 
-// var s1 = krnToPinYin(`왕한: 저 사람은 누구입니까?
-// 김준호: 저 사람은 양리 씨입니다.
-// 왕한: 누가 옵니까?
-// 김준호: 이선희 씨가 옵니다.
-// 왕한: 이선희 씨의 전공은 무엇입니까?
-// 김준호: 이선희 씨의 전공은 경제학입니다.`);
 
-// var s2 = krnToPinYin(`이선희: 이것은 무엇입니까?
-// 양리: 그것은 가방입니다.
-// 이선희: 이 가방은 누구의 것입니까?
-// 양리: 그 가방은 왕한 씨의 것입니다.
-// 이선희: 저 사전도 왕한 씨의 것입니까?
-// 양리: 아닙니다. 저 사전은 왕한 씨의 것이 아닙니다. 황민 씨의 사전입니다.
-// 이선희: 이 컴퓨터는 누구의 것입니까?
-// 양리: 그것은 제 것입니다.`);
-
-// var s3 = krnToPinYin(`이선희: 이것은 무엇입니까?
-// 양리: 그것은 가방입니다.
-// 이선희: 이 가방은 누구声调符号是特大号은 왕한 씨의 것입니다.
-// 이선희: 저 사전도 왕한 씨의 것입니까?
-// 양리: 아닙니다. sfdghsdehe fdshshnd SEDGbs dfh DE  Hfgadn 왕한 씨의 것이 아닙니다. 황민 씨의 사전입니다.
-// 이선희: 이 컴퓨터는 누구의 것입니까?
-// 양리: 그것은 제 것입니다.`);
-
-// console.log(s3);
-// console.log(s2);
-// console.log(s1);
 
